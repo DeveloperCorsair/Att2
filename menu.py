@@ -117,41 +117,57 @@ def create_produto():
 def delete_produto(id):
     global db
     mycol = db.produto
-    myquery = {" Qual o id do produto": id}
+    myquery = {" Qual o id do produto?\n": id}
     mydoc = mycol.delete_one(myquery)
     print("Produto deletado ",mydoc)
 
-def read_produto():
+def read_produto(nome):
     global db
-    mycol = db.usuario
+    mycol = db.produto
     print("Aqui estão os produtos existentes: ")
-    if not len(nome):
+    if nome:
         mydoc = mycol.find().sort("nome")
         for x in mydoc:
-            print(x["nome"],x["cpf"])
+            print(x["nome"])
     else:
         myquery = {"nome": nome}
         mydoc = mycol.find(myquery)
         for x in mydoc:
             print(x)
 
-def update_produto():
+def update_produto(nome):
     global db
-    mycol = db.usuario
+    mycol = db.produto
     myquery = {"nome": nome}
     mydoc = mycol.find_one(myquery)
-    print("Dados do usuário: ",mydoc)
+    print("Informações do produto: ",mydoc)
     nome = input("Mudar Nome:")
     if len(nome):
         mydoc["nome"] = nome
 
-    sobrenome = input("Mudar Sobrenome:")
-    if len(sobrenome):
-        mydoc["sobrenome"] = sobrenome
+    """ valor_unitario = input("Mudar Valor Unitário:")
+    if len(valor_unitario):
+        mydoc["valor_unitario"] = valor_unitario
 
-    cpf = input("Mudar nome do produto:")
-    if len(nome):
-        mydoc["nome"] = nome
+    descricao = input("Mudar a descricao do produto:")
+    if len(descricao):
+        mydoc["descricao"] = descricao
+
+    marca = input("Mudar a marca do produto:")
+    if len(marca):
+        mydoc["marca"] = marca
+
+    instrucao = input("Mudar a instrucao de uso do produto:")
+    if len(instrucao):
+        mydoc["instrucao"] = instrucao
+
+    categoria = input("Mudar a categoria do produto:")
+    if len(categoria):
+        mydoc["categoria"] = categoria
+
+    estoque = input("Mudar o volume de estoque do produto:")
+    if len(estoque):
+        mydoc["estoque"] = estoque """
 
     newvalues = { "$set": mydoc }
     mycol.update_one(myquery, newvalues)
@@ -203,7 +219,8 @@ while (key != 'S'):
             delete_usuario(nome, sobrenome)
             
     elif (key == '2'):
-        print("Menu do Vendedor")        
+        print("Menu do Vendedor")
+
     elif (key == '3'):
             print("Menu do Produto")
             print("1-Create Produto")
@@ -216,11 +233,17 @@ while (key != 'S'):
                 create_produto()
                 
             elif (sub == '2'):
-                nome = input("Read usuário, deseja algum nome especifico? ")
+                nome = input("Read Produto, deseja algum nome especifico? ")
                 read_produto(nome)
             
             elif (sub == '3'):
-                nome = input("Update usuário, deseja algum nome especifico? ")
+                nome = input("Update Produto, deseja algum nome especifico? ")
+                """ valor_unitario = input("Update Produto, deseja algum valor_unitario especifico? ")
+                descricao = input("Update Produto, deseja algum descricao especifico? ")
+                marca = input("Update Produto, deseja algum marca especifico? ")
+                instrucao = input("Update Produto, deseja algum instrucao especifico? ")
+                categoria = input("Update Produto, deseja algum categoria especifico? ")
+                estoque = input("Update Produto, deseja algum estoque especifico? ") """
                 update_produto(nome)
     
             elif (sub == '4'):
