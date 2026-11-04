@@ -119,7 +119,7 @@ def delete_produto(id):
     mycol = db.produto
     myquery = {" Qual o id do produto?\n": id}
     mydoc = mycol.delete_one(myquery)
-    print("Produto deletado ",mydoc)
+    print("Produto deletado ", mydoc)
 
 def read_produto(nome):
     global db
@@ -187,6 +187,7 @@ def create_vendedor():
 
 key = 0
 sub = 0
+
 while (key != 'S'):
     print("1-CRUD Usuário")
     print("2-CRUD Vendedor")
@@ -249,6 +250,4 @@ while (key != 'S'):
             elif (sub == '4'):
                 print("delete produto")
                 nome = input("Nome a ser deletado: ")
-                sobrenome = input("Sobrenome a ser deletado: ")
                 delete_produto(id, nome)
-
