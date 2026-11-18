@@ -1,3 +1,4 @@
+# A priore, a parte mais importante seria a conexão com o banco que pode ser exportada para outras coleções
 import pymongo
 from pymongo.server_api import ServerApi
 
