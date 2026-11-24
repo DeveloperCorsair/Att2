@@ -1,13 +1,9 @@
 import pymongo
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+from config.database import db
 
-uri = "mongodb+srv://henriquemartins7t_db_user:fatec@cluster0.o4esj86.mongodb.net/?appName=Cluster0"
-
-# Create a new client and connect to the server
-client = MongoClient(uri, server_api=ServerApi('1'))
-global db
-db = client.mercado_livre
+colecao_compra = db["compra"]
 
 # PRODUTO
 def create_compra():

@@ -1,12 +1,7 @@
+# Responsável pela comunicação com o cliente
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-
-uri = "mongodb+srv://henriquemartins7t_db_user:fatec@cluster0.o4esj86.mongodb.net/?appName=Cluster0"
-
-# Create a new client and connect to the server
-client = MongoClient(uri, server_api=ServerApi('1'))
-global db
-db = client.mercado_livre
+import config.database
 
 # USUÁRIO
 def delete_usuario(nome, sobrenome):
@@ -192,7 +187,10 @@ while (key != 'S'):
     print("1-CRUD Usuário")
     print("2-CRUD Vendedor")
     print("3-CRUD Produto")
-    key = input("Digite a opção desejada? (S para sair) ")
+    print("4-CRUD Compra")
+    print("5-CRUD Favorito")
+
+    key = input("Digite a opção desejada? (Pressione S para sair)")
 
     if (key == '1'):
         print("Menu do Usuário")

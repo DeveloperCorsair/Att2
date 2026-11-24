@@ -1,27 +1,23 @@
 import pymongo
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+from config.database import db
 
-uri = "mongodb+srv://henriquemartins7t_db_user:fatec@cluster0.o4esj86.mongodb.net/?appName=Cluster0"
-
-# Create a new client and connect to the server
-client = MongoClient(uri, server_api=ServerApi('1'))
-global db
-db = client.mercado_livre
+colecao_usuario = db["usuario"]
 
 # USUÁRIO
 def delete_usuario(nome, sobrenome):
     #Delete
     global db
-    mycol = db.usuario
+    colecao_usuario = db.usuario
     myquery = {"nome": nome, "sobrenome":sobrenome}
-    mydoc = mycol.delete_one(myquery)
+    mydoc = colecao_usuario.delete_one(myquery)
     print("Deletado o usuário ",mydoc)
 
 def create_usuario():
     #Insert
     global db
-    mycol = db.usuario
+    colecao_usuario = db.usuario
     print("\nInserindo um novo usuário")
     nome = input("Nome: ")
     sobrenome = input("Sobrenome: ")
@@ -46,30 +42,30 @@ def create_usuario():
         end.append(endereco) #estou inserindo na lista
         key = input("Deseja cadastrar um novo endereço (S/N)? ")
     mydoc = { "nome": nome, "sobrenome": sobrenome, "cpf": cpf, "end": end }
-    x = mycol.insert_one(mydoc)
+    x = colecao_usuario.insert_one(mydoc)
     print("Documento inserido com ID ",x.inserted_id)
 
 def read_usuario(nome):
     #Read
     global db
-    mycol = db.usuario
+    colecao_usuario = db.usuario
     print("Usuários existentes: ")
     if not len(nome):
-        mydoc = mycol.find().sort("nome")
+        mydoc = colecao_usuario.find().sort("nome")
         for x in mydoc:
             print(x["nome"],x["cpf"])
     else:
         myquery = {"nome": nome}
-        mydoc = mycol.find(myquery)
+        mydoc = colecao_usuario.find(myquery)
         for x in mydoc:
             print(x)
 
 def update_usuario(nome):
     #Read
     global db
-    mycol = db.usuario
+    colecao_usuario = db.usuario
     myquery = {"nome": nome}
-    mydoc = mycol.find_one(myquery)
+    mydoc = colecao_usuario.find_one(myquery)
     print("Dados do usuário: ",mydoc)
     nome = input("Mudar Nome:")
     if len(nome):
@@ -84,7 +80,7 @@ def update_usuario(nome):
         mydoc["cpf"] = cpf
 
     newvalues = { "$set": mydoc }
-    mycol.update_one(myquery, newvalues)
+    colecao_usuario.update_one(myquery, newvalues)
 
 
 print("Tchau Prof...")

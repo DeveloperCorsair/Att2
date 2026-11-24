@@ -1,3 +1,10 @@
+import pymongo
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
+from config.database import db
+
+colecao_produto = db["produto"]
+
 # PRODUTO
 def create_produto():
     global db
