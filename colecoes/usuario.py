@@ -5,17 +5,15 @@ from config.database import db
 
 colecao_usuario = db["usuario"]
 
-# USUÁRIO
+# CRUD de USUÁRIO
 def delete_usuario(nome, sobrenome):
-    #Delete
     global db
     colecao_usuario = db.usuario
     myquery = {"nome": nome, "sobrenome":sobrenome}
-    mydoc = colecao_usuario.delete_one(myquery)
-    print("Deletado o usuário ",mydoc)
+    documento = colecao_usuario.delete_one(myquery)
+    print("Deletado o usuário ",documento)
 
 def create_usuario():
-    #Insert
     global db
     colecao_usuario = db.usuario
     print("\nInserindo um novo usuário")
@@ -23,10 +21,11 @@ def create_usuario():
     sobrenome = input("Sobrenome: ")
     cpf = input("CPF: ")
     key = 1
+    favoritos = []
     end = []
     while (key != 'N'):
         rua = input("Rua: ")
-        num = input("Num: ")
+        num = input("Número: ")
         bairro = input("Bairro: ")
         cidade = input("Cidade: ")
         estado = input("Estado: ")
@@ -41,46 +40,53 @@ def create_usuario():
         }
         end.append(endereco) #estou inserindo na lista
         key = input("Deseja cadastrar um novo endereço (S/N)? ")
-    mydoc = { "nome": nome, "sobrenome": sobrenome, "cpf": cpf, "end": end }
-    x = colecao_usuario.insert_one(mydoc)
-    print("Documento inserido com ID ",x.inserted_id)
+    documento = { 
+            "nome": nome, 
+             "sobrenome": sobrenome, 
+             "cpf": cpf, 
+             "end": end 
+             }
+    colecao = colecao_usuario.insert_one(documento)
+    print("Documento inserido com ID ",colecao.inserted_id)
 
 def read_usuario(nome):
-    #Read
     global db
     colecao_usuario = db.usuario
     print("Usuários existentes: ")
     if not len(nome):
-        mydoc = colecao_usuario.find().sort("nome")
-        for x in mydoc:
-            print(x["nome"],x["cpf"])
+        documento = colecao_usuario.find().sort("nome")
+        for colecao in documento:
+            print(colecao["nome"],colecao["cpf"])
     else:
         myquery = {"nome": nome}
-        mydoc = colecao_usuario.find(myquery)
-        for x in mydoc:
-            print(x)
+        documento = colecao_usuario.find(myquery)
+        for colecao in documento:
+            print(colecao)
 
 def update_usuario(nome):
-    #Read
+    # Procura o nome do usuário dentro da coleção
     global db
     colecao_usuario = db.usuario
     myquery = {"nome": nome}
-    mydoc = colecao_usuario.find_one(myquery)
-    print("Dados do usuário: ",mydoc)
+    documento = colecao_usuario.find_one(myquery)
+
+    print("Dados do usuário: ",documento)
+
+    # 
+    # Altera os dados do usuário
     nome = input("Mudar Nome:")
     if len(nome):
-        mydoc["nome"] = nome
+        documento["nome"] = nome
 
     sobrenome = input("Mudar Sobrenome:")
     if len(sobrenome):
-        mydoc["sobrenome"] = sobrenome
+        documento["sobrenome"] = sobrenome
 
     cpf = input("Mudar CPF:")
     if len(cpf):
-        mydoc["cpf"] = cpf
+        documento["cpf"] = cpf
 
-    newvalues = { "$set": mydoc }
+    newvalues = { "$set": documento }
     colecao_usuario.update_one(myquery, newvalues)
 
-
-print("Tchau Prof...")
+print("Até a próxima!")
